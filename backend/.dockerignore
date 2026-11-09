@@ -1,0 +1,30 @@
+
+# Environnement Python local
+.venv/
+venv/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Tests et outils de développement
+tests/
+.coverage
+htmlcov/
+.ruff_cache/
+
+# Base SQLite locale
+*.db
+*.db-journal
+
+# Secrets
+.env
+.env.*
+
+# Git
+.git/
+
+# Fichiers système
+.DS_Store
+Thumbs.db
