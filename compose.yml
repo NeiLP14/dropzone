@@ -1,13 +1,12 @@
-
 services:
   db:
     image: postgres:16
     container_name: dropzone-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: dropzone
-      POSTGRES_USER: dropzone
-      POSTGRES_PASSWORD: dropzone_password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -23,9 +22,10 @@ services:
     container_name: dropzone-api
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgresql+psycopg://dropzone:dropzone_password@db:5432/dropzone
-      LOG_LEVEL: INFO
-      SEED_DEMO_DATA: "true"
+      DATABASE_URL: ${DATABASE_URL}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      SEED_DEMO_DATA: ${SEED_DEMO_DATA:-true}
+      CORS_ORIGINS: ${CORS_ORIGINS:-}
     ports:
       - "8000:8000"
     depends_on:
@@ -37,11 +37,11 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: /api
+        VITE_API_URL: ${VITE_API_URL:-/api}
     container_name: dropzone-front
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
       - api
 
